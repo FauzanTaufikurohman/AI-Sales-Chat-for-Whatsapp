@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function (): void {
     Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/send-otp', [AuthController::class, 'sendOtp']);
+    Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
     Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 });
