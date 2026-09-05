@@ -2,39 +2,37 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
 
-    protected $fillable = ['name', 'email', 'phone_number', 'password', 'status'];
+    protected $fillable = [
+        'name',
+        'email',
+        'phone_number',
+        'password',
+        'phone_verified_at',
+    ];
 
-    public function whatsappAccounts(): HasMany
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'phone_verified_at' => 'datetime',
+    ];
+
+    public function whatsappBot()
     {
-        return $this->hasMany(WhatsAppAccount::class);
+        return $this->hasOne(WhatsappBot::class);
     }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function otpVerifications()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(OtpVerification::class);
     }
 }

@@ -35,15 +35,12 @@ return [
         ],
     ],
 
-    'whatsapp' => [
-        'api_url' => env('WHATSAPP_API_URL', 'https://graph.facebook.com'),
-        'verify_token' => env('WHATSAPP_VERIFY_TOKEN'),
-        'app_secret' => env('WHATSAPP_APP_SECRET'),
+    'fonnte' => [
+        'token' => env('FONNTE_TOKEN'),
     ],
 
-    'gemini' => [
-        'key' => env('GEMINI_API_KEY'),
-        'model' => env('GEMINI_MODEL', 'gemini-2.0-flash'),
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
     ],
-
 ];
