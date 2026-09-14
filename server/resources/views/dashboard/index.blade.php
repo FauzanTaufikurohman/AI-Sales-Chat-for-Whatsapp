@@ -25,6 +25,26 @@
                     {{ $bot->is_active ? 'Aktif' : 'Nonaktif' }}
                 </span>
             </p>
+            <p class="flex items-center gap-2 text-slate-400">Device Fonnte
+                <span class="text-base font-medium text-white">{{ $bot->connection_status ?? 'disconnected' }}</span>
+            </p>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-3">
+            @if(! $bot->fonnte_device)
+                <form method="POST" action="{{ route('whatsapp.connect') }}">
+                    @csrf
+                    <button type="submit" class="rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-cyan-300">Buat Device</button>
+                </form>
+            @else
+                <a href="{{ route('whatsapp.qr') }}" target="_blank" class="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-slate-200 hover:border-cyan-300/60">Buka QR</a>
+                <a href="{{ route('whatsapp.status') }}" target="_blank" class="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-slate-200 hover:border-cyan-300/60">Cek Status</a>
+                @if($bot->connection_status === 'connected' && ! $bot->is_active)
+                    <form method="POST" action="{{ route('whatsapp.activate') }}">
+                        @csrf
+                        <button type="submit" class="rounded-lg bg-emerald-400 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-emerald-300">Aktifkan AI</button>
+                    </form>
+                @endif
+            @endif
         </div>
         </div>
         <div class="rounded-2xl border border-white/10 bg-white/[0.06] p-6">

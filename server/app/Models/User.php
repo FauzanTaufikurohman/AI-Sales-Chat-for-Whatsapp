@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -15,6 +16,7 @@ class User extends Authenticatable
         'phone_number',
         'password',
         'phone_verified_at',
+        'email_verified_at',
     ];
 
     protected $hidden = [
@@ -24,15 +26,11 @@ class User extends Authenticatable
 
     protected $casts = [
         'phone_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 
     public function whatsappBot()
     {
         return $this->hasOne(WhatsappBot::class);
-    }
-
-    public function otpVerifications()
-    {
-        return $this->hasMany(OtpVerification::class);
     }
 }

@@ -44,15 +44,18 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->string('phone_number', 20)->unique();
-            $table->string('provider')->nullable();
+            $table->string('provider')->default('fonnte');
             $table->string('provider_phone_id')->nullable();
             $table->string('provider_account_id')->nullable();
-            $table->string('provider_token')->nullable();
+            $table->text('provider_token')->nullable();
             $table->string('name', 120)->nullable();
             $table->text('system_prompt')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
+            $table->string('fonnte_device')->nullable()->unique();
+            $table->string('fonnte_token')->nullable();
+            $table->string('connection_status')->default('disconnected');
+            $table->timestamp('connected_at')->nullable();
             $table->timestamps();
-            $table->index(['user_id']);
         });
 
         Schema::create('conversations', function (Blueprint $table) {
@@ -66,7 +69,8 @@ return new class extends Migration
             $table->timestamps();
             $table->timestamp('last_message_at')->nullable();
             $table->index([
-                'bot_id', 'customer_phone',
+                'bot_id',
+                'customer_phone',
             ]);
             $table->index('last_message_at');
         });

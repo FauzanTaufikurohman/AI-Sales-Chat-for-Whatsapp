@@ -36,11 +36,20 @@ return [
     ],
 
     'fonnte' => [
-        'token' => env('FONNTE_TOKEN'),
+        'account_token' => env('FONNTE_ACCOUNT_TOKEN'),
+        'webhook_url' => env(
+            'FONNTE_WEBHOOK_URL',
+            rtrim(env('APP_URL', 'http://localhost'), '/').'/api/webhooks/whatsapp'
+        ),
+        'webhook_secret' => env('FONNTE_WEBHOOK_SECRET'),
     ],
 
     'openai' => [
         'key' => env('OPENAI_API_KEY'),
         'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
+        'required_information' => array_values(array_filter(array_map(
+            'trim',
+            explode(',', env('AI_REQUIRED_INFORMATION', 'nama,kebutuhan,budget,lokasi,waktu_penggunaan'))
+        ))),
     ],
 ];

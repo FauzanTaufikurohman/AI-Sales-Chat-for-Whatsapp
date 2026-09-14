@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Blade\AuthController;
 use App\Http\Controllers\Blade\DashboardController;
+use App\Http\Controllers\WhatsappBotController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -38,37 +39,47 @@ Route::middleware('guest')->group(function () {
         'login',
     ])->name('login.store');
 
-    /*
-    |--------------------------------------------------------------------------
-    | OTP
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/verify-otp', [
+    Route::get('/verify-email', [
         AuthController::class,
-        'otpForm',
-    ])->name('otp.form');
+        'verificationNotice',
+    ])->name('verification.notice');
 
-    Route::post('/verify-otp', [
+    Route::post('/verify-email/resend', [
         AuthController::class,
-        'verifyOtp',
-    ])->name('otp.verify');
+        'resendVerification',
+    ])->name('verification.resend');
+
+    Route::get('/verify-email/{id}/{hash}', [
+        AuthController::class,
+        'verifyEmail',
+    ])->middleware('signed')->name('verification.verify');
 });
-
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 
-    Route::get('/dashboard', [
-        DashboardController::class,
-        'index',
-    ])->name('dashboard');
+    Route::post('/whatsapp/connect', [WhatsappBotController::class, 'connect'])
+        ->name('whatsapp.connect');
+
+    Route::get('/whatsapp/qr', [WhatsappBotController::class, 'qr'])
+        ->name('whatsapp.qr');
+
+    Route::get('/whatsapp/status', [WhatsappBotController::class, 'status'])
+        ->name('whatsapp.status');
+
+    Route::post('/whatsapp/activate', [WhatsappBotController::class, 'activate'])
+        ->name('whatsapp.activate');
 
     Route::get('/dashboard/conversations/{conversation}', [
         DashboardController::class,
         'conversation',
     ])->name('dashboard.conversation');
 
-    Route::post('/logout', [
-        AuthController::class,
-        'logout',
-    ])->name('logout');
+    Route::post('/dashboard/conversations/{conversation}/reply', [
+        DashboardController::class,
+        'reply',
+    ])->name('dashboard.conversation.reply');
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
 });

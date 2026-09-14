@@ -10,8 +10,7 @@
 <h1 class="text-3xl font-semibold tracking-tight text-white">Login</h1>
 
 <p class="mt-3 text-sm leading-6 text-slate-400">
-    Masukkan email atau nomor WhatsApp Anda.
-    Kami akan mengirimkan kode OTP.
+    Masukkan email atau nomor WhatsApp Anda untuk masuk.
 </p>
 
 @if($errors->any())
@@ -38,8 +37,19 @@
         >
     </div>
 
+    <div>
+        <label for="password" class="mb-2 block text-sm font-medium text-slate-200">Password</label>
+
+        <input
+            type="password"
+            name="password"
+            required
+            class="w-full rounded-lg border border-white/15 bg-slate-950/50 px-4 py-3 text-white outline-none transition focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20"
+        >
+    </div>
+
     <button type="submit" class="w-full rounded-lg bg-cyan-400 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:ring-offset-2 focus:ring-offset-slate-900">
-        Kirim OTP
+        Login
     </button>
 
 </form>

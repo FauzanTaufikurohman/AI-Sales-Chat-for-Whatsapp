@@ -16,14 +16,20 @@ class WhatsappBot extends Model
         'name',
         'system_prompt',
         'is_active',
+        'fonnte_device',
+        'fonnte_token',
+        'connection_status',
+        'connected_at',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'connected_at' => 'datetime',
     ];
 
     protected $hidden = [
         'provider_token',
+        'fonnte_token',
     ];
 
     public function user()
@@ -33,6 +39,6 @@ class WhatsappBot extends Model
 
     public function conversations()
     {
-        return $this->hasMany(Conversation::class);
+        return $this->hasMany(Conversation::class, 'bot_id');
     }
 }

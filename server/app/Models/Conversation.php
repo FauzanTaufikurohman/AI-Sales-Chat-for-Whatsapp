@@ -8,7 +8,7 @@ class Conversation extends Model
 {
     protected $fillable = [
         'bot_id',
-        'customer_phone_number',
+        'customer_phone',
         'customer_name',
         'status',
         'last_message_at',
@@ -20,7 +20,7 @@ class Conversation extends Model
 
     public function whatsappBot()
     {
-        return $this->belongTo(WhatsappBot::class);
+        return $this->belongsTo(WhatsappBot::class, 'bot_id');
     }
 
     public function messages()
